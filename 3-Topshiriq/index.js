@@ -22,12 +22,16 @@ const inventorySchema = new mongoose.Schema({
 
 const Inventory = mongoose.model('Inventory', inventorySchema);
 async function getInventoryItems() {
-    const result = await Inventory
+    return await Inventory
         .find({ status: 'A' })
         .sort({ item: 1 })
-        .select({ item: 1, qty: 1 })
-    console.log(result);
+        .select({ item: 1, qty: 1, _id: 0 })
 }
 
+async function run() {
+    const items = await getInventoryItems();
+    console.log(items);
+}
 
-getInventoryItems();
+run();
+
