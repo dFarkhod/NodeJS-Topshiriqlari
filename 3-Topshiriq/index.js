@@ -21,15 +21,23 @@ const inventorySchema = new mongoose.Schema({
 }, { collection: 'inventory' });
 
 const Inventory = mongoose.model('Inventory', inventorySchema);
-async function getInventoryItems() {
+
+async function getInventoryItems1() {
     return await Inventory
         .find({ status: 'A' })
         .sort({ item: 1 })
         .select({ item: 1, qty: 1, _id: 0 })
 }
 
+async function getInventoryItems2() {
+    return await Inventory
+        .find()
+        .or([{ qty: { $lte: 50 } }, { item: /.*l.*/i }])
+        .sort({ qty: -1 })
+}
+
 async function run() {
-    const items = await getInventoryItems();
+    const items = await getInventoryItems2();
     console.log(items);
 }
 
