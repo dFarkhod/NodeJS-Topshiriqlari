@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
   if (error)
     return res.status(400).send(error.details[0].message);
 
-  const category = new Category({
+  let category = new Category({
     name: req.body.name
   });
   category = await category.save();
@@ -46,7 +46,7 @@ router.put('/:id', async (req, res) => {
   if (error)
     return res.status(400).send(error.details[0].message);
 
-  const category = await Category.findByIdAndUpdate(req.params.id, { name: req.body.name }, {
+  let category = await Category.findByIdAndUpdate(req.params.id, { name: req.body.name }, {
     new: true
   });
 
