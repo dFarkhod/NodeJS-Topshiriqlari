@@ -11,6 +11,7 @@ mongoose.connect('mongodb://localhost/virtualdars', { useNewUrlParser: true, use
   .catch((err) => {
     console.error('MongoDBga ulanish vaqtida xato ro\'y berdi...', err);
   });
+mongoose.set('useFindAndModify', false);
 app.use(express.json());
 app.use('/api/categories', categoriesRoute);
 
