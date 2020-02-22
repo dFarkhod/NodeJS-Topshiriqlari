@@ -11,7 +11,11 @@ const Author = mongoose.model('Author', new mongoose.Schema({
 }));
 
 const Book = mongoose.model('Book', new mongoose.Schema({
-  title: String
+  title: String,
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Author'
+  }
 }));
 
 async function createAuthor(firstName, lastName, email) {
@@ -25,9 +29,10 @@ async function createAuthor(firstName, lastName, email) {
   console.log(result);
 }
 
-async function createBook(title) {
+async function createBook(title, authorId) {
   const book = new Book({
-    title: title
+    title: title,
+    author: authorId
   });
 
   const result = await book.save();
@@ -37,12 +42,13 @@ async function createBook(title) {
 async function listBooks() {
   const book = await Book
     .find()
+    .populate('author', 'firstName -_id')
     .select('title author');
   console.log(book);
 }
 
-createAuthor('Farkhod', 'Dadajanov', 'dfarkhod@gmail.com');
+//createAuthor('Farkhod', 'Dadajanov', 'dfarkhod@gmail.com');
 
-//createBook('NodeJS - To\'liq qo\'llanma', 'authorId')
+//createBook('NodeJS - To\'liq qo\'llanma', '5e50bcc530b7b830e4ace837')
 
-//listBooks();
+listBooks();
