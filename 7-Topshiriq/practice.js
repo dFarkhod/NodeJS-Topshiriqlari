@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/virtualdars2', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/practice', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDBga ulanish hosil qilindi...'))
   .catch((err) => console.error('MongoDBga ulanish vaqtida xato ro\'y berdi...', err));
 
