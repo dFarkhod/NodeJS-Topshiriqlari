@@ -25,7 +25,7 @@ async function createAuthor(firstName, lastName, email) {
   console.log(result);
 }
 
-async function createBook(title, author) {
+async function createBook(title) {
   const book = new Book({
     title: title
   });
@@ -41,8 +41,8 @@ async function listBooks() {
   console.log(book);
 }
 
-//createAuthor('Farkhod', 'Dadajanov', 'dfarkhod@gmail.com');
+createAuthor('Farkhod', 'Dadajanov', 'dfarkhod@gmail.com');
 
 //createBook('NodeJS - To\'liq qo\'llanma', 'authorId')
 
-listBooks();
+//listBooks();
