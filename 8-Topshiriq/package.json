@@ -1,0 +1,21 @@
+{
+  "name": "topshiriq-8",
+  "version": "1.0.0",
+  "description": "",
+  "main": "transactions.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "virtualdars",
+    "dasturlash",
+    "nodejs",
+    "topshiriq"
+  ],
+  "author": "Farkhod Dadajanov",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.8.11",
+    "run-rs": "^0.6.2"
+  }
+}
