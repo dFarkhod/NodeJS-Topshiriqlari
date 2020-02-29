@@ -1,16 +1,19 @@
 const mongoose = require('mongoose');
 const currency = require('currency.js');
-const init = require('./init');
+const initDatabase = require('./init');
+const User = require('./models/user');
+const Journal = require('./models/journal');
 
-async function transferMoney(senderAccountId, receiveAccountId, amount) {
+async function transferMoney(senderAccountNumber, receiverAccountNumber, amount) {
     // connect the DB and get the User Model
-    const User = await init();
-
+    await initDatabase();
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
         // always pass session to find queries when the data is needed for the transaction session
-        const sender = await User.findOne({ accountId: senderAccountId }).session(session);
+        const sender = await User.findOne({ accountNumber: senderAccountNumber }).session(session);
+        if (!sender)
+            throw new Error('Sender not found');
 
         // calculate the updated sender balance
         sender.balance = currency(sender.balance).subtract(amount);
@@ -26,14 +29,26 @@ async function transferMoney(senderAccountId, receiveAccountId, amount) {
         // more about the associated session ($session) later on
         await sender.save();
 
-        const receiver = await User.findOne({ accountId: receiverAccountId }).session(session);
+        const debitJournal = new Journal({
+            accountNumber: sender.accountNumber, operation: 'Debit', amount: amount
+        })
+        await debitJournal.save();
 
-        receive.balance = currency(receiver.balance).add(amount);
+        const receiver = await User.findOne({ accountNumber: receiverAccountNumber }).session(session);
+        if (!receiver)
+            throw new Error('Receiver not found');
 
+        receiver.balance = currency(receiver.balance).add(amount);
         await receiver.save();
+
+        const creditJournal = new Journal({
+            accountNumber: receiver.accountNumber, operation: 'Credit', amount: amount
+        })
+        await creditJournal.save();
 
         // commit the changes if everything was successful
         await session.commitTransaction();
+        console.log('Transaction has been completed successfully!');
     } catch (error) {
         // if anything fails above just rollback the changes here
 
@@ -49,8 +64,6 @@ async function transferMoney(senderAccountId, receiveAccountId, amount) {
         // ending the session
         session.endSession();
     }
-
-
 }
 
-transferMoney('SA1002001', 'SA3104215', 100);
+module.exports = transferMoney;

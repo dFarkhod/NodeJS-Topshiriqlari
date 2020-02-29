@@ -1,24 +1,31 @@
 const mongoose = require('mongoose');
-// the run-rs command will by default start the replica sets on the following ports
-const connString = 'mongodb://FarkhodPC:27017,FarkhodPC:27018,FarkhodPC:27019?replicaSet=rs';
-async function init() {
-  // connecting the DB
+const User = require('./models/user');
+
+const connString = 'mongodb://FarkhodPC:27019/trans';
+async function initDatabase() {
   await mongoose.connect(connString, {
     replicaSet: 'rs',
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
 
-  // a simple mongoose model
-  const User = mongoose.model('User', new mongoose.Schema({
-    accountNumber: String, name: String, balance: Number
-  }));
-  User.createCollection();
+  const senderAccountNumber = 'SA1002001';
+  const receiverAccountNumber = 'SA3104215';
 
-  // creating two users
-  await User.create([
-    { accountNumber: 'SA1002001', name: 'Ahmad', balance: 50000.00 },
-    { accountNumber: 'SA3104215', name: 'Anvar', balance: 1200.00 }
-  ]);
+  const sender = await User.findOne({ accountNumber: senderAccountNumber });
+  if (!sender) {
+    const sender = new User({
+      accountNumber: senderAccountNumber, name: 'Ahmad', balance: 50000.00
+    });
+    await sender.save();
+  }
+
+  const receiver = await User.findOne({ accountNumber: receiverAccountNumber });
+  if (!receiver) {
+    receiver = new User({
+      accountNumber: receiverAccountNumber, name: 'Anvar', balance: 1200.00
+    });
+    await receiver.save();
+  }
 }
-module.exports = init;
+module.exports = initDatabase;
