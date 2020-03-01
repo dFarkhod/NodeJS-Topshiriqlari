@@ -15,18 +15,18 @@ async function initDatabase() {
   const receiverAccountNumber = 'SA3104215';
 
   // jo'natuvchini hisob raqami bo'yicha bazadan izlab ko'ramiz
-  const sender = await User.findOne({ accountNumber: senderAccountNumber });
+  let sender = await User.findOne({ accountNumber: senderAccountNumber });
 
   // agar topilmasa, unda bazaga yangi hujjat qo'shamiz
   if (!sender) {
-    const sender = new User({
+    sender = new User({
       accountNumber: senderAccountNumber, name: 'Ahmad', balance: 50000.00
     });
     await sender.save();
   }
 
   // oluvchini bazadan hisob raqami bo'yicha izlab ko'ramiz
-  const receiver = await User.findOne({ accountNumber: receiverAccountNumber });
+  let receiver = await User.findOne({ accountNumber: receiverAccountNumber });
 
   // agar topilmasa, bazaga yangi hujjat qo'shamiz
   if (!receiver) {
