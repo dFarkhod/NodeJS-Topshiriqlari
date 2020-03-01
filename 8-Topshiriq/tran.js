@@ -18,7 +18,7 @@ async function transferMoney(senderAccountNumber, receiverAccountNumber, amount)
         // jo'natuvchini bazadan izlab topamiz, bunda bazaga so'rov berilyapti, shuning uchun
         // tranzaktsiya ichida bajariladigan barcha so'rovlarga sessiyani ham
         // berib yuborishimiz kerak
-        const sender = await User.findOne({ accountNumber: senderAccountNumber }).session(session);
+        let sender = await User.findOne({ accountNumber: senderAccountNumber }).session(session);
         if (!sender)
             throw new Error('Sender not found');
 
@@ -34,15 +34,16 @@ async function transferMoney(senderAccountNumber, receiverAccountNumber, amount)
         // bu yerda sessiya obyektini berishni keragi yo'q.
         await sender.save();
 
+        // throw new Error('Bu allaqanday bir xato!!! Ajjab bo\'lsin!');
         // jo'natuvchining hisobidan pul yechib olingan amal haqida
         // jurnal yozamiz
-        const debitJournal = new Journal({
+        let debitJournal = new Journal({
             accountNumber: sender.accountNumber, operation: 'Debit', amount: amount
         })
         await debitJournal.save();
 
         // oluvchini bazadan izlab topamiz va agar u topilmasa xato qaytaramiz
-        const receiver = await User.findOne({ accountNumber: receiverAccountNumber }).session(session);
+        let receiver = await User.findOne({ accountNumber: receiverAccountNumber }).session(session);
         if (!receiver)
             throw new Error('Receiver not found');
 
@@ -52,7 +53,7 @@ async function transferMoney(senderAccountNumber, receiverAccountNumber, amount)
         await receiver.save();
 
         // oluvchining hisobiga pul qo'shilganlik amalini jurnalga yozib qo'yamiz
-        const creditJournal = new Journal({
+        let creditJournal = new Journal({
             accountNumber: receiver.accountNumber, operation: 'Credit', amount: amount
         })
         await creditJournal.save();
