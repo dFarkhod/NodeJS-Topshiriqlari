@@ -5,13 +5,14 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const courses = await Course.find().sort('name');
+  const courses = await Course.find().sort('title');
   res.send(courses);
 });
 
 router.post('/', async (req, res) => {
   const { error } = validate(req.body); 
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) 
+    return res.status(400).send(error.details[0].message);
 
   const category = await Category.findById(req.body.categoryId);
   if (!category) 
@@ -23,8 +24,9 @@ router.post('/', async (req, res) => {
       _id: category._id,
       name: category.name
     },
-    numberInStock: req.body.numberInStock,
-    dailyRentalRate: req.body.dailyRentalRate
+    trainer: req.body.trainer,
+    tags: req.body.tags,
+    status: req.body.status
   });
   course = await course.save();
   
@@ -46,8 +48,9 @@ router.put('/:id', async (req, res) => {
         _id: category._id,
         name: category.name
       },
-      numberInStock: req.body.numberInStock,
-      dailyRentalRate: req.body.dailyRentalRate
+      trainer: req.body.trainer,
+      tags: req.body.tags,
+      status: req.body.status,
     }, { new: true });
 
   if (!course) 

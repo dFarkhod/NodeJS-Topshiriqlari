@@ -14,26 +14,27 @@ const Course = mongoose.model('Courses', new mongoose.Schema({
     type: categorySchema,  
     required: true
   },
-  numberInStock: { 
-    type: Number, 
-    required: true,
-    min: 0,
-    max: 255
+  trainer: {
+    type: String,
+    required: true
   },
-  dailyRentalRate: { 
-    type: Number, 
-    required: true,
-    min: 0,
-    max: 255
+  tags: {
+    type: [String]
+  },
+  status: { 
+    type: String, 
+    enum: ['Active', 'Inactive'],
+    required: true
   }
 }));
 
 function validateCourse(course) {
   const schema = {
-    title: Joi.string().min(5).max(50).required(),
-    category: Joi.string().required(),
-    numberInStock: Joi.number().min(0).required(),
-    dailyRentalRate: Joi.number().min(0).required()
+    title: Joi.string().min(3).max(50).required(),
+    categoryId: Joi.string().required(),
+    trainer: Joi.string().required(),
+    status: Joi.string().required(),
+    tags: Joi.array().items(Joi.string())
   };
 
   return Joi.validate(course, schema);
