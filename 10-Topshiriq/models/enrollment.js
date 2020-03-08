@@ -30,9 +30,6 @@ const Enrollment = mongoose.model('Enrollment', new mongoose.Schema({
     required: true,
     default: Date.now
   },
-  dateEnd: {
-    type: Date
-  },
   courseFee: {
     type: Number,
     min: 0
