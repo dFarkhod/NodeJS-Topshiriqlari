@@ -1,4 +1,4 @@
-const { Entrollment, validate } = require('../models/entrollment');
+const { Enrollment, validate } = require('../models/enrollment');
 const { Course } = require('../models/course');
 const { Customer } = require('../models/customer');
 const mongoose = require('mongoose');
@@ -6,8 +6,8 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const entrollments = await Enrollment.find().sort('-dateStart');
-  res.send(entrollments);
+  const enrollments = await Enrollment.find().sort('-dateStart');
+  res.send(enrollments);
 });
 
 router.post('/', async (req, res) => {
@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
   if (!course)
     return res.status(404).send('Berilgan IDga teng bo\'lgan kurs topilmadi.');
 
-  let enrollment = new Entrollment({
+  let enrollment = new Enrollment({
     customer: {
       _id: customer._id,
       name: customer.name
@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const enrollment = await Entrollment.findById(req.params.id);
+  const enrollment = await Enrollment.findById(req.params.id);
 
   if (!enrollment)
     return res.status(404).send('Berilgan IDga teng bo\'lgan qabul topilmadi.');

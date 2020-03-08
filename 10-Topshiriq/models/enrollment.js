@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
-const Entrollment = mongoose.model('Entrollment', new mongoose.Schema({
+const Enrollment = mongoose.model('Enrollment', new mongoose.Schema({
   customer: {
     type: new mongoose.Schema({
       name: {
@@ -39,7 +39,7 @@ const Entrollment = mongoose.model('Entrollment', new mongoose.Schema({
   }
 }));
 
-function validateEntrollment(enrollment) {
+function validateEnrollment(enrollment) {
   const schema = {
     customerId: Joi.string().required(),
     courseId: Joi.string().required()
@@ -48,5 +48,5 @@ function validateEntrollment(enrollment) {
   return Joi.validate(enrollment, schema);
 }
 
-exports.Entrollment = Entrollment;
-exports.validate = validateEntrollment;
+exports.Enrollment = Enrollment;
+exports.validate = validateEnrollment;
