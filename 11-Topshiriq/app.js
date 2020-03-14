@@ -6,15 +6,7 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const GridFsStorage = require("multer-gridfs-storage");
 
-app.use((req, res, next) => {
-  res.append('Access-Control-Allow-Origin', 'http://localhost:4200');
-  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.append("Access-Control-Allow-Headers", "Origin, Accept,Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-  res.append('Access-Control-Allow-Credentials', true);
-  next();
-});
-
-// Middlewares
+// Middleware
 app.use(express.json());
 app.set("view engine", "ejs");
 
@@ -55,12 +47,13 @@ const storage = new GridFsStorage({
     });
   }
 });
+//const storage = new GridFsStorage({ url: mongoURI }) // soddaroq usuli
 
 const upload = multer({
   storage
 });
 
-// get / page
+// route'lar
 app.get("/", (req, res) => {
   if (!gfs) {
     const error = "Kutilmagan xato yuz berdi.";
@@ -104,16 +97,15 @@ app.get("/", (req, res) => {
 });
 
 app.post("/upload", upload.single("file"), (req, res) => {
-  // res.json({file : req.file})
   res.redirect("/");
 });
 
 app.get("/files", (req, res) => {
   gfs.find().toArray((err, files) => {
-    // check if files
+    // fayl mavjudligini tekshiramiz
     if (!files || files.length === 0) {
       return res.status(404).json({
-        err: "no files exist"
+        err: "bironta ham fayl mavjud emas"
       });
     }
 
@@ -129,7 +121,7 @@ app.get("/files/:filename", (req, res) => {
     (err, file) => {
       if (!file) {
         return res.status(404).json({
-          err: "no files exist"
+          err: "bunday fayl mavjud emas"
         });
       }
 
@@ -139,7 +131,6 @@ app.get("/files/:filename", (req, res) => {
 });
 
 app.get("/image/:filename", (req, res) => {
-  // console.log('id', req.params.id)
   const file = gfs
     .find({
       filename: req.params.filename
@@ -147,7 +138,7 @@ app.get("/image/:filename", (req, res) => {
     .toArray((err, files) => {
       if (!files || files.length === 0) {
         return res.status(404).json({
-          err: "no files exist"
+          err: "bunday rasm mavjud emas"
         });
       }
       gfs.openDownloadStreamByName(req.params.filename).pipe(res);
@@ -155,16 +146,18 @@ app.get("/image/:filename", (req, res) => {
 });
 
 // files/del/:id
-// Delete chunks from the db
+// faylni database'dan o'chiramiz
 app.post("/files/del/:id", (req, res) => {
   gfs.delete(new mongoose.Types.ObjectId(req.params.id), (err, data) => {
-    if (err) return res.status(404).json({ err: err.message });
+    if (err)
+      return res.status(404).json({ err: err.message });
+
     res.redirect("/");
   });
 });
 
-const port = 5001;
+const port = process.env.PORT || 5001;
 
 app.listen(port, () => {
-  console.log("server started on " + port);
+  console.log(`${port}chi portni eshitishni boshladim...`);
 });
