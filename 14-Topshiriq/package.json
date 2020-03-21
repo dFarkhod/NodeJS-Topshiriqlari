@@ -10,12 +10,13 @@
     "virtualdars",
     "dasturlash",
     "nodejs",
-	"hashing",
-	"password"
+    "hashing",
+    "password"
   ],
   "author": "Farkhod Dadajanov",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "express": "^4.17.1",
     "joi": "^14.3.1",
     "lodash": "^4.17.15",
