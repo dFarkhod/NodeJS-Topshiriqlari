@@ -1,0 +1,26 @@
+{
+  "name": "virtualdars",
+  "version": "1.1.1",
+  "description": "15-Topshiriq. autenticating users",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "virtualdars",
+    "dasturlash",
+    "nodejs",
+    "hashing",
+    "password",
+	"authentication"
+  ],
+  "author": "Farkhod Dadajanov",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "express": "^4.17.1",
+    "joi": "^14.3.1",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.8.11"
+  }
+}
