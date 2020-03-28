@@ -5,6 +5,7 @@ const Joi = require('joi');
 const router = express.Router();
 const _ = require('lodash');
 
+
 router.post('/', async (req, res) => {
     const { error } = validate(req.body);
     if (error)
@@ -18,7 +19,8 @@ router.post('/', async (req, res) => {
     if (!isValidPassword)
         return res.status(400).send('Email yoki parol noto\'g\'ri');
 
-    res.send(true);
+    const token = user.generateAuthToken();
+    res.header('x-auth-token', token).send(true);
 });
 
 function validate(req) {

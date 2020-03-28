@@ -7,6 +7,12 @@ const usersRoute = require('./routes/users');
 const authRoute = require('./routes/auth');
 const app = express();
 const mongoose = require('mongoose');
+const config = require('config');
+
+if (!config.get('jwtPrivateKey')) {
+  console.error('JIDDIY XATO: virtualdars_jwtPrivateKey muhit o\'zgaruvchisi aniqlanmagan.');
+  process.exit(1);
+}
 
 mongoose.connect('mongodb://localhost/virtualdars', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
