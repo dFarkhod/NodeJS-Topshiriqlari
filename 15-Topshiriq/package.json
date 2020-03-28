@@ -12,7 +12,7 @@
     "nodejs",
     "hashing",
     "password",
-	"authentication"
+    "authentication"
   ],
   "author": "Farkhod Dadajanov",
   "license": "ISC",
