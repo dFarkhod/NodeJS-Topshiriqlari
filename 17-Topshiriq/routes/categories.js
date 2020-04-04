@@ -45,7 +45,7 @@ router.put('/:id', auth, async (req, res) => {
   res.send(category);
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   let category = await Category.findByIdAndRemove(req.params.id);
   if (!category)
     return res.status(404).send('Berilgan IDga teng bo\'lgan toifa topilmadi');
