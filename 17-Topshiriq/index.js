@@ -23,6 +23,7 @@ mongoose.connect('mongodb://localhost/virtualdars', { useNewUrlParser: true, use
   });
 mongoose.set('useFindAndModify', false);
 app.use(express.json());
+
 app.use('/api/categories', categoriesRoute);
 app.use('/api/customers', customersRoute);
 app.use('/api/courses', coursesRoute);
