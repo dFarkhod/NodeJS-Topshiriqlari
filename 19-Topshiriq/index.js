@@ -1,3 +1,4 @@
+require('express-async-errors');
 const express = require('express');
 const categoriesRoute = require('./routes/categories');
 const customersRoute = require('./routes/customers');
@@ -30,6 +31,9 @@ app.use('/api/courses', coursesRoute);
 app.use('/api/enrollments', entrollmentsRoute);
 app.use('/api/users', usersRoute);
 app.use('/api/auth', authRoute);
+app.use(function (err, req, res, next) {
+  res.status(500).send('Serverda kutilmagan xato ro\'y berdi');
+})
 
 const port = process.env.PORT || 5000;
 
