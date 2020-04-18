@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { Category, validate } = require('../models/category');
 const auth = require('../middleware/auth');
-const admin = require('../middleware/admin');
 
 router.get('/', async (req, res) => {
   const categories = await Category.find().sort('name');
@@ -46,7 +45,7 @@ router.put('/:id', auth, async (req, res) => {
   res.send(category);
 });
 
-router.delete('/:id', [auth, admin], async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   let category = await Category.findByIdAndRemove(req.params.id);
   if (!category)
     return res.status(404).send('Berilgan IDga teng bo\'lgan toifa topilmadi');
