@@ -17,6 +17,17 @@ winston.add(new winston.transports.Console());
 winston.add(new winston.transports.File({ filename: 'logs/vd-logs.log', level: 'error' }));
 winston.add(new winston.transports.MongoDB({ db: 'mongodb://localhost/virtualdars-logs', level: 'info' }));
 
+winston.exceptions.handle(new winston.transports.File({ filename: 'logs/vd-logs.log' }))
+
+
+process.on('unhandledRejection', ex => {
+  throw ex;
+});
+
+const myPromise = Promise.reject('yana boshqa kutilmagan xato!').then('bitdi');
+
+throw new Error('Kutilmagan xato!');
+
 if (!config.get('jwtPrivateKey')) {
   winston.error('JIDDIY XATO: virtualdars_jwtPrivateKey muhit o\'zgaruvchisi aniqlanmagan.');
   process.exit(1);
