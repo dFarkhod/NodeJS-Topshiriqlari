@@ -5,7 +5,6 @@ const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 
 router.get('/', async (req, res) => {
-  throw new Error('Toifalarni olishda kutilmagan xato yuz berdi!');
   const categories = await Category.find().sort('name');
   res.send(categories);
 });
