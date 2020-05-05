@@ -1,0 +1,15 @@
+{
+  "name": "testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mylib.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Farkhod Dadajanov",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^25.5.4"
+  }
+}
