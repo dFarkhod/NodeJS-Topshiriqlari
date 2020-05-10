@@ -50,5 +50,12 @@ describe('getCurrencies', () => {
 });
 
 
-
+describe('getProduct', () => {
+    it('should return the product with the given id', () => {
+        const result = myLib.getProduct(11);
+        expect(result).toEqual({ id: 11, title: 'banana', price: 2 });
+        expect(result).toMatchObject({ id: 11, price: 2 });
+        expect(result).toHaveProperty('price', 2);
+    });
+});
 
