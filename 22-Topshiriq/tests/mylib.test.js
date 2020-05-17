@@ -1,4 +1,5 @@
 const myLib = require('../mylib');
+
 describe('absolute', () => {
     it('should return a positive number if input is positive', () => {
         const result = myLib.absolute(1);
@@ -56,6 +57,23 @@ describe('getProduct', () => {
         expect(result).toEqual({ id: 11, title: 'banana', price: 2 });
         expect(result).toMatchObject({ id: 11, price: 2 });
         expect(result).toHaveProperty('price', 2);
+    });
+});
+
+
+describe('registerUser', () => {
+    it('should throw error if userName is falsy', () => {
+        // null, undefined, NaN, "", 0 va false
+        const falsyItems = [null, undefined, NaN, "", 0, false];
+        falsyItems.forEach(fi => {
+            expect(() => { myLib.registeruser(fi) }).toThrow();
+        });
+    });
+
+    it('should return a user object if valid username is passed', () => {
+        const user = myLib.registeruser('admin');
+        expect(user).toMatchObject({ userName: 'admin' });
+        expect(user.id).toBeGreaterThan(0);
     });
 });
 
