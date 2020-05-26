@@ -1,4 +1,5 @@
 const myLib = require('../mylib');
+const db = require('../db');
 
 describe('absolute', () => {
     it('should return a positive number if input is positive', () => {
@@ -77,3 +78,26 @@ describe('registerUser', () => {
     });
 });
 
+describe('applyDiscount', () => {
+    it('should apply 10% discount if customer has more than 100 points', () => {
+        db.getCustomer = function (customerId) {
+            console.log('Mijozni olishni mock qildik');
+            return { id: customerId, points: 101 }
+        }
+
+        const order = { customerId: 7, price: 100, totalPrice: 100 };
+        myLib.applyDiscount(order);
+        expect(order.totalPrice).toBe(90);
+    });
+
+    it('should not apply any discount if customer has less than 100 points', () => {
+        db.getCustomer = function (customerId) {
+            console.log('Mijozni olishni mock qildik');
+            return { id: customerId, points: 55 }
+        }
+
+        const order = { customerId: 7, price: 100, totalPrice: 100 };
+        myLib.applyDiscount(order);
+        expect(order.totalPrice).toBe(100);
+    });
+});
