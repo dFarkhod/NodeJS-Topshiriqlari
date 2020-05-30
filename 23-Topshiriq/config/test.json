@@ -1,3 +1,4 @@
 {
-    "jwtPrivateKey": "1234"
+    "jwtPrivateKey": "1234",
+    "db": "mongodb://localhost/virtualdars_tests"
 }

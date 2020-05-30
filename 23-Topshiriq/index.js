@@ -7,6 +7,8 @@ require('./startup/db')();
 require('./startup/config')();
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   winston.info(`${port}chi portni eshitishni boshladim...`);
 });
+
+module.exports = server;
