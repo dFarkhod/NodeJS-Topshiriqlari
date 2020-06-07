@@ -3,6 +3,7 @@ const router = express.Router();
 const { Category, validate } = require('../models/category');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const mongoose = require('mongoose');
 
 router.get('/', async (req, res) => {
   const categories = await Category.find().sort('name');
@@ -24,6 +25,9 @@ router.post('/', auth, async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res.status(404).send('Yaroqsiz id');
+
   let category = await Category.findById(req.params.id);
   if (!category)
     return res.status(404).send('Berilgan IDga teng bo\'lgan toifa topilmadi');
