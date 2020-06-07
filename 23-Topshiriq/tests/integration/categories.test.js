@@ -2,6 +2,7 @@ const request = require('supertest');
 let server;
 const { Category } = require('../../models/category');
 const { User } = require('../../models/user');
+const mongoose = require('mongoose');
 
 describe('/api/categores', () => {
     beforeEach(() => {
@@ -38,6 +39,12 @@ describe('/api/categores', () => {
 
         it('should return 404 if invalid id is given', async () => {
             const response = await request(server).get('/api/categories/123');
+            expect(response.status).toBe(404);
+        });
+
+        it('should return 404 if no category with the passed id exist', async () => {
+            const categoryId = mongoose.Types.ObjectId();
+            const response = await request(server).get('/api/categories/' + categoryId);
             expect(response.status).toBe(404);
         });
     });

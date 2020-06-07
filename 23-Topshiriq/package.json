@@ -4,7 +4,7 @@
   "description": "21-Topshiriq. loglarni mongodbga yozish",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll"
+    "test": "jest --watchAll --coverage"
   },
   "keywords": [
     "virtualdars",
